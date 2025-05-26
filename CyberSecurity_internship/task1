@@ -1,1 +1,77 @@
+Task 1: Scan Your Local Network for Open Ports
+
+Objective: Learn to discover open ports on devices within your local network to understand network exposure and evaluate potential security risks.
+
+Tools Used:
+
+Nmap (free)
+
+Wireshark (optional)
+
+Step 1: Install Nmap
+Downloaded and installed Nmap from the official site: https://nmap.org/download.html
+Installation completed successfully on Windows (includes Zenmap GUI).
+
+Step 2: Find Your Local IP Range
+Ran ipconfig in Command Prompt.
+Found IPv4 Address: 192.168.1.101
+Found Subnet Mask: 255.255.255.0
+Local network IP range determined to be: 192.168.1.0/24
+
+Step 3: Run TCP SYN Scan
+Executed the command:
+nmap -sS 192.168.1.0/24
+This scanned all devices in the subnet using a TCP SYN (stealth) scan.
+
+Step 4: Note Down IP Addresses and Open Ports Found
+Sample Nmap Output:
+Nmap scan report for 192.168.1.1
+Host is up (1.0s latency).
+PORT STATE SERVICE
+80/tcp open http
+443/tcp open https
+
+Nmap scan report for 192.168.1.101
+Host is up (0.0030s latency).
+PORT STATE SERVICE
+22/tcp open ssh
+139/tcp open netbios-ssn
+445/tcp open microsoft-ds
+
+Devices Detected:
+
+192.168.1.1 (Router): Ports 80 (HTTP), 443 (HTTPS)
+
+192.168.1.101 (My PC): Ports 22 (SSH), 139/445 (Windows file sharing)
+
+Step 5: (Optional) Analyze Packet Capture with Wireshark
+Opened Wireshark and started a capture on the active network interface.
+Applied filter: ip.addr == 192.168.1.1
+Observed SYN packets sent from my PC to devices in the network and SYN-ACK responses from devices with open ports.
+
+Step 6: Research Common Services Running on Those Ports
+
+Port	Protocol	Common Service	Description
+22	TCP	SSH	Secure remote login
+80	TCP	HTTP	Web server
+443	TCP	HTTPS	Secure web server
+139	TCP	NetBIOS Session	Windows file/printer sharing
+445	TCP	Microsoft-DS	SMB file sharing
+
+Step 7: Identify Potential Security Risks from Open Ports
+
+Port 22 (SSH): Safe if properly configured with strong passwords or SSH keys.
+
+Ports 139/445 (SMB): May expose the system to SMB-based vulnerabilities like EternalBlue.
+
+Port 80 (HTTP): Unencrypted web traffic; consider redirecting to HTTPS.
+
+Recommendation: Close unused ports or restrict them via a firewall to reduce attack surface.
+
+Conclusion:
+Successfully scanned the local network using Nmap.
+Discovered active devices and identified open ports.
+Used Wireshark for optional packet-level analysis.
+Researched services running on open ports and identified potential security risks.
+
 
